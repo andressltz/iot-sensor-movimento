@@ -7,7 +7,7 @@
 ```
 $ npm install -g firebase-tools
 $ firebase login
-$ cd firebase\functions
+$ cd firebase/functions
 $ npm install
 $ firebase serve
 ```
@@ -27,7 +27,7 @@ timestamp = timestamp do momento de inicio ou pausa da captura de movimento
 ### Deploy
 
 ```
-$ cd firebase\functions
+$ cd firebase/functions
 $ npm install
 $ firebase deploy
 ```
