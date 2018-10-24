@@ -1,0 +1,14 @@
+{
+  "name": "iot",
+  "description": "",
+  "version": "0.0.1",
+  "private": true,
+  "license": "",
+  "engines": {
+    "node": "~6.0"
+  },
+  "scripts": {
+    "start": "firebase serve --only functions:iot",
+    "deploy": "firebase deploy --only functions:iot"
+  }
+}

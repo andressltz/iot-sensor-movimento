@@ -1,0 +1,14 @@
+{
+  "name": "web",
+  "description": "",
+  "version": "0.0.1",
+  "private": true,
+  "license": "",
+  "engines": {
+    "node": "~6.0"
+  },
+  "scripts": {
+    "start": "firebase serve --only functions:web",
+    "deploy": "firebase deploy --only functions:web"
+  }
+}
