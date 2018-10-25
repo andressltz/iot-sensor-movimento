@@ -14,28 +14,39 @@ firebase.initializeApp(config);
 exports.iot = functions.https.onRequest((req, res) => {
   
   let database = firebase.database();
+  const timestamp = Date.now()
+  let id = null;
 
   const received = {
     action: req.query.action,
-    timestamp: req.query.timestamp,
-    id: req.query.id
+    // timestamp: req.query.timestamp,
+    timestamp: timestamp,
+    idReceived: req.query.id,
+    idTimestamp: timestamp
   }
   console.info('Received', req.query);
+  console.info('Constructed', received);
 
   if (received.action == 'start') {
     const data = { dateTimeStart: received.timestamp }
     console.info('Saving new event', data);
+    id = received.idTimestamp;
 
-    database.ref('presence/' + received.id).set(data);
+    database.ref('presence/' + received.idTimestamp).set(data);
   } else if (received.action == 'stop') {
-    database.ref('presence/' + received.id).once('value')
+    id = received.idReceived;
+    database.ref('presence/' + received.idReceived).once('value')
       .then(snapshot => {
         const savedData = snapshot.val()
         savedData.dateTimeStop = received.timestamp
         console.info('Updating event', savedData);
-        database.ref('presence/' + received.id).set(savedData);
+        database.ref('presence/' + received.idReceived).set(savedData);
+      })
+      .catch(err => {
+        console.error('ID not searched', err)
       })
   }
 
-  res.send(received);
+  res.send(id.toString());
+  
 });
