@@ -47,6 +47,7 @@ exports.iot = functions.https.onRequest((req, res) => {
       })
   }
 
+  console.info(`Response ${id}`);
   res.send(id.toString());
   
 });

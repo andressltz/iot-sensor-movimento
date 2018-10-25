@@ -6,14 +6,16 @@
 const char* ssid = "iPhone de Andres";
 const char* password = "pascocasa42";
 //const String appUrl = "https://us-central1-iot-sensor-movimento.cloudfunctions.net";
-const String appUrl = "http://4e07ecdf.ngrok.io/iot-sensor-movimento/us-central1";
+const String appUrl = "http://7def700d.ngrok.io/iot-sensor-movimento/us-central1";
 int pir = 13;
+int pirLed = 27;
 int acionamento;
 bool isPresence = false;
-int eventId = NULL;
+String eventId = "0";
 
 void setup() {
   pinMode(pir, INPUT);
+  pinMode(pirLed, OUTPUT);
   Serial.begin(9600);
   // Serial.begin(115200);
   delay(4000);
@@ -35,17 +37,18 @@ void loop() {
     if (acionamento == HIGH) {
       if (!isPresence) {
         Serial.println("START");
+        digitalWrite(pirLed, HIGH);
         isPresence = true;
         long timeStart = millis();
-        eventId = timeStart;
-        request(eventId, "start", timeStart);
+        request(0, "start", timeStart);
       }
     } else {
       if (isPresence) {
         Serial.println("STOP");
+        digitalWrite(pirLed, LOW);
         isPresence = false;
         long timeEnd = millis();
-        request(eventId, "stop", timeEnd);
+        request(0, "stop", timeEnd);
       }
     }
     
@@ -54,7 +57,7 @@ void loop() {
   }
 }
 
-void request(int eventId, char* action, long timestamp) {
+void request(int count, char* action, long timestamp) {
   HTTPClient http;
   String address = appUrl + "/iot?id=" + eventId + "&action=" + action + "&timestamp=" + timestamp;
   Serial.println("Sending request to " + address);
@@ -62,15 +65,21 @@ void request(int eventId, char* action, long timestamp) {
 
   int httpResponseCode = http.GET();
   String response = http.getString();
-  Serial.println("ResponseCode: " + httpResponseCode);
+  Serial.println(httpResponseCode);
   Serial.println("Response: " + response);
 
-  if(httpResponseCode != 200){
-//    request(eventId, action, timestamp);
+  if(count < 3) {
+    if(httpResponseCode != 200){
+      Serial.println("Error. Trying again...");
+      request(count + 1, action, timestamp);
+    } else {
+      eventId = response;
+      Serial.println("Returned");
+    }
   } else {
-    eventId = response.toInt();
+    Serial.println("Error on send request.");
   }
-
-  Serial.println("Returned");
+  
   http.end();
 }
+
