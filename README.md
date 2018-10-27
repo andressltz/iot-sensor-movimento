@@ -1,6 +1,6 @@
 # IOT Sensor de Movimento
 
-## Functions
+## Functions e Hosting
 
 ### Executar local
 
@@ -14,7 +14,11 @@ $ firebase serve
 
 Fazer GET
 
-http://localhost:5000/iot-sensor-movimento/us-central1/iot?id=abc&action=start&timestamp=134556789
+http://localhost:5001/iot-sensor-movimento/us-central1/iot?id=abc&action=start&timestamp=134556789
+
+Acessar Dashboard
+
+http://localhost:5000/
 
 Parametros:
 
@@ -27,21 +31,22 @@ timestamp = timestamp do momento de inicio ou pausa da captura de movimento
 ### Deploy
 
 ```
-$ cd firebase/functions
+$ cd firebase
 $ npm install
 $ firebase deploy
 ```
 
 Fazer GET URL Pública
-https://us-central1-iot-sensor-movimento.cloudfunctions.net/iot?id=abc&action=start&timestamp=134556789
 
+https://us-central1-iot-sensor-movimento.cloudfunctions.net/iot?id=abc&action=start&timestamp=134556789
 
 ## Ideia do projeto
 
-placa -> wifi -> post functions -> salvar database
+placa ESP32 -> WI-FI -> GET functions -> salvar database
 
 client -> ler database
 
+```
 database : {
   presence : {
     zcxnzbcnxcb: {
@@ -59,5 +64,7 @@ database : {
   }
 }
 
-// post(khjkfgjhkjgf, start, timestamp)
-// post(khjkfgjhkjgf, stop, timestamp)
+// get(khjkfgjhkjgf, start, timestamp)
+// get(khjkfgjhkjgf, stop, timestamp)
+```
+
