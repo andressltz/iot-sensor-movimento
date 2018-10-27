@@ -12,15 +12,15 @@ $ npm install
 $ firebase serve
 ```
 
-Fazer GET
+#### Fazer GET
 
 http://localhost:5001/iot-sensor-movimento/us-central1/iot?id=abc&action=start&timestamp=134556789
 
-Acessar Dashboard
+#### Acessar Dashboard
 
 http://localhost:5000/
 
-Parametros:
+#### Parametros:
 
 id = valor aleatório de identificação do movimento identificado
 
@@ -36,9 +36,13 @@ $ npm install
 $ firebase deploy
 ```
 
-Fazer GET URL Pública
+#### Fazer GET URL Pública
 
 https://us-central1-iot-sensor-movimento.cloudfunctions.net/iot?id=abc&action=start&timestamp=134556789
+
+#### Dashboard
+
+http://iot-sensor-movimento.firebaseapp.com
 
 ## Ideia do projeto
 
