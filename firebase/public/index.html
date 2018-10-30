@@ -151,12 +151,19 @@
       if (!!timestamp) {
         var date = new Date(timestamp);
         var dateString = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-        var time = date.getHours() + ":" + date.getMinutes();
+        var time = padLeft(date.getHours()) + ":" + padLeft(date.getMinutes()) + ":" + padLeft(date.getSeconds());
         return dateString + " - " + time;
       } else {
         return '';
       }
     }
+    
+    function padLeft(value) {
+      var pad = '00';
+      value = value.toString()
+      return pad.substring(0, pad.length - value.length) + value
+    }
+
   </script>
 </body>
 
