@@ -21,12 +21,20 @@
       padding: 0;
     }
 
+    #panel {
+      text-align: center;
+    }
+
     #message {
       background: white;
       max-width: 360px;
-      margin: 100px auto 16px;
-      padding: 32px 24px;
+      /* margin: 15px auto 15px; */
+      padding: 25px 20px;
       border-radius: 3px;
+      display: inline-block;
+      min-width: 300px;
+      margin: 15px 20px 15px 20px;
+      text-align: left;
     }
 
     #message h2 {
@@ -45,7 +53,6 @@
 
     #message p {
       line-height: 140%;
-      margin: 16px 0 24px;
       font-size: 14px;
     }
 
@@ -71,6 +78,11 @@
       font-size: 13px;
     }
 
+    #id {
+      font-size: 12px;
+      color: grey;
+    }
+
     @media (max-width: 600px) {
 
       body,
@@ -88,34 +100,44 @@
 </head>
 
 <body>
-  <h1>Registros</h1>
+  <h1>Atividades presenciadas</h1>
   <div id="panel">
       <div id="message">
-          <p>Início: Início: 23/10/2018 - 20:19<br />Fim: 23/10/2018 - 20:30</p>
+        <span id="id">#1</span>
+          <p>Início: 23/10/2018 - 20:19<br />Fim: 23/10/2018 - 20:30</p>
         </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       try {
-        firebase.database().ref('/presence').on('value', snapshot => {
+        firebase.database().ref('/presence').orderByKey().on('value', snapshot => {
           var array = [];
           snapshot.forEach(ss => {
             array.push(ss.val());
           });
 
-          array.forEach(event => {
-            const div = document.createElement('div')
-            const p = document.createElement('p')
-            const textStart = document.createTextNode(`Início: ${event.dateTimeStart}`)
-            const textEnd = document.createTextNode(`Fim: ${event.dateTimeStop}`)
-            const br = document.createElement('br')
-            p.appendChild(textStart)
-            p.appendChild(br)
-            p.appendChild(textEnd)
-            div.appendChild(p)
-            div.id = 'message'
-            document.getElementById('panel').appendChild(div)
+          var count = array.length;
+          document.getElementById('panel').innerHTML = "";
+
+          array.reverse().forEach(event => {
+            const div = document.createElement('div');
+            const p = document.createElement('p');
+            const span = document.createElement('span');
+            const textStart = document.createTextNode(`Início: ${formatDate(event.dateTimeStart)}`);
+            const textEnd = document.createTextNode(`Fim: ${formatDate(event.dateTimeStop)}`);
+            const br = document.createElement('br');
+            const textCount = document.createTextNode(`#${count}`);
+            span.id = 'id';
+            span.appendChild(textCount);
+            p.appendChild(textStart);
+            p.appendChild(br);
+            p.appendChild(textEnd);
+            div.appendChild(span);
+            div.appendChild(p);
+            div.id = 'message';
+            document.getElementById('panel').appendChild(div);
+            count--;
           });
         });
 
@@ -124,6 +146,17 @@
         document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
       }
     });
+
+    function formatDate(timestamp) {
+      if (!!timestamp) {
+        var date = new Date(timestamp);
+        var dateString = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+        var time = date.getHours() + ":" + date.getMinutes();
+        return dateString + " - " + time;
+      } else {
+        return '';
+      }
+    }
   </script>
 </body>
 
