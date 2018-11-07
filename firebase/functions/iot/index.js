@@ -1,13 +1,21 @@
 const functions = require('firebase-functions');
 const firebase = require('firebase');
 
+// const config = {
+//   apiKey: "AIzaSyDHmoytKP_syiuyO23lrUU1f2Gas9QM914",
+//   authDomain: "iot-sensor-movimento.firebaseapp.com",
+//   databaseURL: "https://iot-sensor-movimento.firebaseio.com",
+//   projectId: "iot-sensor-movimento",
+//   storageBucket: "iot-sensor-movimento.appspot.com",
+//   messagingSenderId: "159562105766"
+// };
 const config = {
-  apiKey: "AIzaSyDHmoytKP_syiuyO23lrUU1f2Gas9QM914",
-  authDomain: "iot-sensor-movimento.firebaseapp.com",
-  databaseURL: "https://iot-sensor-movimento.firebaseio.com",
-  projectId: "iot-sensor-movimento",
-  storageBucket: "iot-sensor-movimento.appspot.com",
-  messagingSenderId: "159562105766"
+  apiKey: "AIzaSyDvmAzfqiRlInSAR1lmXwynFbllE-Q9Lxs",
+    authDomain: "iot-sensor-movimento-apr.firebaseapp.com",
+    databaseURL: "https://iot-sensor-movimento-apr.firebaseio.com",
+    projectId: "iot-sensor-movimento-apr",
+    storageBucket: "iot-sensor-movimento-apr.appspot.com",
+    messagingSenderId: "201730895055"
 };
 firebase.initializeApp(config);
 
